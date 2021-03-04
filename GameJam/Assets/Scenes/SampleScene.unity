@@ -3234,7 +3234,7 @@ PrefabInstance:
     - target: {fileID: 2486212192845542284, guid: 85975df2f6be17c4c902f408c343ac1b, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 13400000, guid: f50acbc906b696a49a0fa055834d26d1, type: 2}
+      objectReference: {fileID: 13400000, guid: 8c553b9e5e898474fbde6531847f7e35, type: 2}
     - target: {fileID: 5353605412430015639, guid: 85975df2f6be17c4c902f408c343ac1b, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -6728,9 +6728,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _force: 1
-  _forceJump: 400
-  _speed: 2
-  _speedInJump: 1
+  _forceJump: 300
+  _speed: 4
+  _speedInJump: 5
   _maxVelocityInAir: 4
   _countHp: 5
   _whatIsWallRun:

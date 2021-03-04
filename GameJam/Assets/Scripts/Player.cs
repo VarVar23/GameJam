@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _speedInJump;
     [SerializeField] private float _maxVelocityInAir;
+    [SerializeField] private float _airCurrentVelocity;
 
     [Header("HP")]
     [SerializeField] private int _countHp;
@@ -88,12 +89,19 @@ public class Player : MonoBehaviour
             {
                 _rb.AddForce(Vector3.up * _forceJump);
             }
+
+            _airCurrentVelocity = _rb.velocity.magnitude;
         }
         else
         { //add velocity limit
             float targetAngle = Mathf.Atan2(move.x, move.z) * Mathf.Rad2Deg + _camera.eulerAngles.y;
 
             Vector3 movementDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+
+            if (_airCurrentVelocity > _maxVelocityInAir)
+            {
+                _rb.velocity = _rb.velocity.normalized * _airCurrentVelocity;
+            }
             _rb.AddForce(movementDirection * _speedInJump, ForceMode.Force);
         }
     }
