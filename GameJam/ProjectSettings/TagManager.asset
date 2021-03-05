@@ -17,8 +17,8 @@ TagManager:
   - Ground
   - WallRun
   - PostProc
-  - 
-  - 
+  - HighFriction
+  - LowFriction
   - 
   - 
   - 
