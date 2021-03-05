@@ -4,13 +4,21 @@ using UnityEngine;
 
 internal class CameraController : MonoBehaviour
 {
+    [SerializeField] private Transform _cameraAnchor;
+    [Header("Follow")]
     [SerializeField] private Transform _followTarget;
-    [SerializeField] private float rotationSpeed = 5;
-    [SerializeField] private float _speed = 0.08f;
+    [SerializeField] private float _speed = 0.1f;
+    [Header("Rotation")]
+    [SerializeField] private float _rotationSpeed = 5;
+    private float _cameraAnchorCurrentXrotation;
+    [SerializeField] private int _minXlook;
+    [SerializeField] private int _maxXlook;
+    [Header("Shake")]
     [SerializeField] private bool shake;
-    private Vector3 _smoothedPlayerPosition;
+    private Vector3 _smoothedTargetPosition;
     private Vector3 _offset;
 
+    [Header("WallRun")]
     //      WALL RUN
     public bool isWallRunning;
     public float cameraTiltZ;
@@ -27,20 +35,36 @@ internal class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
+
         #region Mouse Rotate
 
-        Quaternion camTurnAnlge = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * rotationSpeed, Vector3.up);
-        _offset = camTurnAnlge * _offset;
+        _cameraAnchor.transform.eulerAngles += Vector3.up * Input.GetAxis("Mouse X") * _rotationSpeed;
+        _cameraAnchorCurrentXrotation += Input.GetAxis("Mouse Y") * _rotationSpeed; 
+        _cameraAnchorCurrentXrotation = Mathf.Clamp(_cameraAnchorCurrentXrotation , _minXlook , _maxXlook);
+
+        Vector3 clampedCameraAnchorAngle = _cameraAnchor.eulerAngles;
+        clampedCameraAnchorAngle.x = -_cameraAnchorCurrentXrotation; // "-" inverted inputs
+
+        _cameraAnchor.eulerAngles = clampedCameraAnchorAngle;
+
+       // Using lookAt without camera anchor
+        /*Quaternion camTurnAnlge = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * rotationSpeed, Vector3.up);
+        _offset = camTurnAnlge * _offset;*/
 
         #endregion
 
         #region Position Change
 
-        _smoothedPlayerPosition = Vector3.Slerp(_smoothedPlayerPosition, _followTarget.position, _speed);
-        transform.position = _smoothedPlayerPosition + _offset;
-        transform.LookAt(_followTarget.position);
+        _smoothedTargetPosition = Vector3.Slerp(_smoothedTargetPosition, _followTarget.position, _speed);
+        _cameraAnchor.position = _smoothedTargetPosition;
+
+            // Using lookAt without camera anchor
+        /*_smoothedTargetPosition = Vector3.Slerp(_smoothedTargetPosition, _followTarget.position, _speed);
+        transform.position = _smoothedTargetPosition + _offset;
+        transform.LookAt(_followTarget.position);*/
 
         #endregion
+
     }
 
     private void FixedUpdate()
