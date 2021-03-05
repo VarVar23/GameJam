@@ -3169,7 +3169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraAnchor: {fileID: 493772610}
   _followTarget: {fileID: 2092099255}
-  _speed: 0.1
+  _speed: 0.02
   _rotationSpeed: 5
   _minXlook: -30
   _maxXlook: 30

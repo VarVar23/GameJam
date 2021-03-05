@@ -16,7 +16,7 @@ internal class CameraController : MonoBehaviour
     [Header("Shake")]
     [SerializeField] private bool shake;
     private Vector3 _smoothedTargetPosition;
-    private Vector3 _offset;
+    //private Vector3 _offset;
 
     [Header("WallRun")]
     //      WALL RUN
@@ -30,7 +30,8 @@ internal class CameraController : MonoBehaviour
     {
         Cursor.visible = false;
 
-        _offset = transform.position - _followTarget.position;
+            // Using lookAt without camera anchor
+        //_offset = transform.position - _followTarget.position;
     }
 
     private void LateUpdate()
@@ -76,6 +77,8 @@ internal class CameraController : MonoBehaviour
             StartCoroutine(CameraShake(0.3f, 0.06f));
         }
 
+        #region Wall Running
+
         /*if (isWallRunning)
         {
             cameraTilt = Mathf.Lerp(cameraTilt, cameraTiltZ , 0.1f);
@@ -86,6 +89,8 @@ internal class CameraController : MonoBehaviour
             cameraTilt = Mathf.Lerp(cameraTilt, cameraRotation.z, 0.1f);
             transform.rotation = Quaternion.Euler(new Vector3(cameraRotation.x, cameraRotation.y, cameraRotation.z + cameraTilt));
         }*/
+
+        #endregion
     }
 
     public IEnumerator CameraShake(float duration, float magnitude)
